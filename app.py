@@ -10,7 +10,6 @@ import plotly.graph_objs as go
 
 import numpy as np
 import pandas as pd
-import rules as rules
 import matplotlib.pyplot as plt
 import seaborn as sns
 import apyori as ap
@@ -40,8 +39,12 @@ def rules(records,min_support=0.6,min_confidence=0.6,min_lift=1):
     fin_rules['consequents']=["&".join(list(x)) for x in fin_rules['consequents']]
     return fin_rules
 
-records=pickle.load( open( "records.pkl", "rb" ) )
+app = dash.Dash()
+
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+
+records=pickle.load( open( "records.pkl", "rb" ) )
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
