@@ -14,7 +14,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import apyori as ap
 from apyori import apriori
-import rules
 import mlxtend as ml
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
