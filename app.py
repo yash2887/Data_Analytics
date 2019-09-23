@@ -22,6 +22,23 @@ from mlxtend.preprocessing import TransactionEncoder
 import warnings
 warnings.filterwarnings('ignore')
 
+def SupervisedApriori(data,consequent,min_supp,min_conf,min_lift):
+    frequent_itemsets = apriori(data, min_supp, use_colnames=True)
+    rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=min_conf)
+    rules = rules[rules['lift']>min_lift]
+    return(rules)
+
+
+def rules(records,min_support=0.6,min_confidence=0.6,min_lift=1):
+    te = TransactionEncoder()
+    te_ary = te.fit(records).transform(records)
+    df = pd.DataFrame(te_ary, columns=te.columns_)
+    sup_rules = SupervisedApriori(df,consequent = ['Attrition','No_Attrition'],min_supp=min_support, min_conf=min_confidence, min_lift=min_lift)
+    fin_rules=sup_rules.sort_values(by='support',ascending=False).head(10)
+    fin_rules['antecedents']=["&".join(list(x)) for x in fin_rules['antecedents']]
+    fin_rules['consequents']=["&".join(list(x)) for x in fin_rules['consequents']]
+    return fin_rules
+
 records=pickle.load( open( "records.pkl", "rb" ) )
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
